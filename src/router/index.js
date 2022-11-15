@@ -1,30 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
+// 1.安装VueRouter
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-];
+// 2.获取路由信息
+// 动态加载pages中所有的路由文件
+const files = require.context("@/views", true, /router\.js$/);
+const routes = files.keys().map((key) => {
+  const page = require("@/views" + key.replace(".", ""));
+  return page.default;
+});
 
+// 3.创建路由对象
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
   routes,
 });
 
+// 4.导出
 export default router;
