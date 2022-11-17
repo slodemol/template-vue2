@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "LoginView",
   components: {},
   mixins: [],
   props: {
